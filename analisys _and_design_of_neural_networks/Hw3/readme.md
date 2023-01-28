@@ -1,0 +1,1 @@
+This assignement asked to evaluate the performance of each layer in a VGG network using center Seperation Index.

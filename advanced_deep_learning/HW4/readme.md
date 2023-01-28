@@ -1,0 +1,1 @@
+The first part of this assignment is using SHAP and LIME for model explainability in BERT and investigating fairness of models. The second part is making a network robust against adversarial attacks

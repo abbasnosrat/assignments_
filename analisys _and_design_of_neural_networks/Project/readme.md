@@ -1,0 +1,1 @@
+The aim of this project is to use Seperation Index for feature selection in an auto encoder.

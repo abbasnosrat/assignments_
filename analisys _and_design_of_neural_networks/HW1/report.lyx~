@@ -1,0 +1,540 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Home Work 1
+\end_layout
+
+\begin_layout Author
+Abbas Nosrat
+\begin_inset Newline newline
+\end_inset
+
+810199294
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Preface
+\end_layout
+
+\begin_layout Standard
+Local contrast normalization is a type of normalization layer which employs
+ local subtractive and divisive normalizations.
+ First of all a Gaussian kernel is formed.
+ The sum of all elements of this kernel is equal to one.
+ This property causes convolution with an image to be just a weighted mean.
+ Figure one demonstrates the contours of the Gaussian kernel.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename ../../../../Pictures/cont.png
+	width 10cm
+	height 10cm
+	keepAspectRatio
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+contours of the Gaussian kernel
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The image is convolved with the kernel and result is subtracted from the
+ original image.
+ This operation brings the image mean close to zero.
+ To construct the divisive part of the normalization, the subtracted image
+ is convolved withe the gaussian kernel again.
+ Each element of the result is compared to the mean of the result and the
+ substituted by the mean if the element is less than the mean.
+ To avoid division by zero, each element is substituted with a small number
+ if it is equal to zero.
+ Finally, the new image is equal to the filtered-subtracted image divided
+ by the divisive part.
+ Figure 2 demonstrates the input and output of the LCN layer.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename ../../../../Pictures/lcn_in.png
+	width 5cm
+	height 5cm
+	keepAspectRatio
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Input image
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename ../../../../Pictures/lcn_out.png
+	width 5cm
+	height 5cm
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Output image
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+input and output of LCN
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The LCN layer enforces a local competition between pixels of the same feature
+ map and pixels with the same spatial location across other feature maps.
+ This competition results in an increase in the model robustness.
+ According to the paper, the mathematical formulation of the LCN layer is
+ as follows:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+v_{i,j,k}=x_{ijk}-\sum_{ipq}w_{pq}.x_{j+p,k+q}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $v_{i,j,k}$
+\end_inset
+
+ is the aforementioned filtered-subtrated image and 
+\begin_inset Formula $w_{pq}$
+\end_inset
+
+ is the kernel weights.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+y_{ijk}=v_{ijk}/max(c,\sigma_{jk})
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $y_{ijk}$
+\end_inset
+
+is the output of LCN, 
+\begin_inset Formula $c=mean(\sigma)$
+\end_inset
+
+ and 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ is the convolution of v and the kernel.
+ The formula above is the divisive part of LCN.
+\end_layout
+
+\begin_layout Standard
+The model used in this homework is YOLOX and the dataset is VOC.
+\end_layout
+
+\begin_layout Section
+Problem 1
+\end_layout
+
+\begin_layout Standard
+The model code was cloned from the YOLOX github repository.
+ The dataset was downloaded via pytorch datasets and moved in the datasets
+ directory inside YOLOX directory.
+ After lots of tinkering with the code, max epochs was reduced to 50 and
+ LCN implementation was added as a prepossessing to the data loader.
+ This addition is possible since LCN has no trainable parameters and can
+ act as a simple normalization on the data.
+ It would have been more efficient if LCN was performed on the dataset before
+ training since it had two convolutions which were ran on CPU which caused
+ training time to greatly increase.
+ The model was trained for 50 epochs.
+ LCN is implemented at YOLOX/yolox/data/datasets/mosaicdetection.py.
+ To run the experiments, simpy run:
+\end_layout
+
+\begin_layout LyX-Code
+python tools/train.py -f exps/example/yolox_voc_s/yolox_voc_s.py -b 4 --fp16
+\end_layout
+
+\begin_layout Standard
+for training without LCN and
+\end_layout
+
+\begin_layout LyX-Code
+python tools/train.py -f exps/example/yolox_voc_lcn/yolox_voc_lcn.py -b 4
+ --fp16
+\end_layout
+
+\begin_layout Standard
+for training with LCN.
+ The aforementioned commands must be ran in YOLOX directory.
+ After training, run printer.py to extract loss plot from training logs which
+ is a text file located at 
+\begin_inset Quotes erd
+\end_inset
+
+YOLOX/YOLOX_outputs
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Figure 3 demonstrates how the loss decreases both with and without LCN.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename loss.png
+	width 15cm
+	height 15cm
+	keepAspectRatio
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+training loss for normal training and training with lcn
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As witnessed in Figure 3,training loss decreases almost normally with LCN
+ slightly being in the lead.
+ However, as the model trains more, the results get worse with the introduction
+ of LCN.
+ The model logged MAP for validation data with tensor board.
+ Figure 4 contains tensor board results.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename ../../../../Pictures/TB_no_lcn.png
+	width 10cm
+	height 10cm
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+normal
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename ../../../../Pictures/TB_base.png
+	width 10cm
+	height 10cm
+	keepAspectRatio
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+with LCN
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Tensor board logs
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+There is an odd behavior in MAP with LCN which cannot be explained but overall,
+ the model performance is worse with LCN.
+ However LCN increases model robustness and the model would perform better
+ in real life scenarios.
+ 
+\end_layout
+
+\begin_layout Standard
+Training time was 13 hours with LCN and 6 hours without LCN.
+ Due to the high training time (on two GTX1050tis), the experiments were
+ ran only once hence these results could be due to the stochastic nature
+ of training.
+ 
+\end_layout
+
+\end_body
+\end_document

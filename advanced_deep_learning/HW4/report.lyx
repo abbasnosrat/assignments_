@@ -1,0 +1,851 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Advanced Deep Learning Homework 4
+\end_layout
+
+\begin_layout Author
+Abbas Nosrat
+\begin_inset Newline newline
+\end_inset
+
+810199294
+\end_layout
+
+\begin_layout Part
+Interpretability & Fairness in DistilBERT
+\end_layout
+
+\begin_layout Section
+Training DistilBERT
+\end_layout
+
+\begin_layout Itemize
+The model was trained with a notebook provided by Huggingface website.
+ The notebook used the pretrained Bert tokenizer to tokenize the sentences
+ and provide attention masks.
+ This tokenizer took the sentence, maximum length and the option to use
+ padding for each sentence.
+ After tokenazation, the Bert model took the tokenized sentences and their
+ attention mask as input and generated p-values for each word in the sentence.
+ The model has been trained for 5 epochs with crossentropy loss and matthews
+ correlation as metric.
+ 
+\end_layout
+
+\begin_layout Itemize
+There is a plethora of text augmentation techniques.
+ These techniques can be divided into three levels.
+ The lowest level is word level.
+ Techniques in word level involve changing random letters in randomly selected
+ words in a text.
+ The second level is sentence level.
+ In this level, words in a sentence can be omitted, substituted with their
+ synonym or antonym or the word order can be scrambled.
+ The third level is text level or paragraph level.
+ One of the techniques in this level is re-translation.
+ This technique, utilizes a translation engine to translate the text to
+ another language and translate it back to the parent language.
+ There are a few repercussions that must be taken for using some of these
+ methods.
+ For example, using antonym substitution, would result in changing the context
+ of the sentence and would turn a positive sentence into a negative sentence.
+ The label must also be changed should this context change occurs.
+\end_layout
+
+\begin_layout Itemize
+The code could not evaluate accuracy so instead, matthews correlation is
+ reported.
+ Training metric is 
+\begin_inset Formula $0.538760$
+\end_inset
+
+ and validation metric is 
+\begin_inset Formula $0.5387602599113016$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Using SHAP and LIME
+\end_layout
+
+\begin_layout Itemize
+The following is a brief explanation of SHAP and LIME:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+SHAP comes from game theory.
+ Basically, SHAP computes the level of contribution of each feature for
+ the given prize.
+ In context of classification, the prize is the decision made by the model.
+ To evaluate the level of contribution (also known as Shaply values), the
+ algorithm evaluates shaply values for a feature in all possible subsets
+ of features involving that feature.
+ As an example, lets choose a subset of three features.
+ all features aside the three chosen features are replaced with random values.
+ This substitution is due to the fact that random values have no prediction
+ power.
+ Assuming the three selected features are called A,B and C and we would
+ like to evaluate Shaply value of feature A.
+ First model predicts with A, B and C and then A is replaced with a random
+ value and the model runs again.
+ Using the p-values provided from both experiments, SHAP evaluates Shaply
+ value of feature A.
+ Shap is repeated for all feature sets involving A and then the total Shaply
+ value for A is an average of shaply values for all subsets.
+ A great limitation of SHAP, is its computational complexity which is 
+\begin_inset Formula $2^{n}$
+\end_inset
+
+ where n is the number of features.
+\end_layout
+
+\begin_layout Itemize
+LIME stands for Local Interpretatble Model-Agnostic Explanation.
+ As the name suggests, This algorithm fits a locally linear model at the
+ decision boundary which is explainable and uses the linear model to provide
+ contribution of each feature based on p-values provided by the linear model.
+ The problem with LIME is that although the explanations may make sense
+ locally, they may not be sensible globally.
+ One advantage of LIME over SHAP is the lower computational cost.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The following are outputs of SHAP and LIME for three randomly given examples.
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename S1L0.png
+	width 5cm
+	height 5cm
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+First label
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename S1L1.png
+	width 5cm
+	height 5cm
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+second label
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+SHAP for the first sentence
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename S2L0.png
+	width 5cm
+	height 5cm
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+First label
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename S2L1.png
+	width 5cm
+	height 5cm
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+second label
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+SHAP for the second sentence
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename S3L0.png
+	width 5cm
+	height 5cm
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+First label
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename S3L1.png
+	width 5cm
+	height 5cm
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+second label
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+SHAP for the third sentence
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+It can be interpreted the model has learned grammar from its attention to
+ words and expressions such as 
+\series bold
+to, es 
+\series default
+or pronouns and verbs placement.
+ For example, in Figure 2, the contribution of the expression 
+\series bold
+es
+\series default
+ made to classifying the sentence as incorrect is higher than other words.
+ 
+\end_layout
+
+\begin_layout Section
+Fairness
+\end_layout
+
+\begin_layout Itemize
+The model associates certain jobs based on gender with a high bias which
+ quit sexist and unfair.
+\end_layout
+
+\begin_layout Itemize
+Performing sentence level text augmentations such as replacing every male
+ name or pronoun with a female, could remedy the problem.
+ If the model learns that a man can work as a nurse or a woman as a carpenter
+ for example, it would no longer associate those jobs with a certain gender.
+ However, statistically speaking, some jobs are indeed more associated with
+ certain genders and the aforementioned augmentation would reduce model
+ power.
+ For example, the number of women working as carpenters is insignificant
+ and this fact is reflected in the dataset.
+ The model can exploit this fact to preform with more accuracy.
+ All in all, such augmentations must not be preformed with a heavy hand.
+\end_layout
+
+\begin_layout Itemize
+Some metrics used to quantify model fairness include:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Disparate Impact
+\series default
+: This is the ratio of probability of favorable outcomes between the unprivilege
+d and privileged groups.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Average odds difference
+\series default
+: This is the average of difference in false positive rates and true positive
+ rates between unprivileged and privileged groups.
+ A value of 0 implies both groups have equal benefit.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Average odds difference
+\series default
+: This is the average of difference in false positive rates and true positive
+ rates between unprivileged and privileged groups.
+ A value of 0 implies both groups have equal benefit.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Using such metrics along with a statistical analysis of the dataset regarding
+ the distribution of minority groups and awareness of the model towards
+ the unprivileged groups would provide a good understanding of model fairness.
+\end_layout
+
+\begin_layout Part
+Adversarial Attacks
+\end_layout
+
+\begin_layout Itemize
+The following figure, demonstrates the predicted values and gradients of
+ images:
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename grad_pred.png
+	width 10cm
+	height 10cm
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+predicted classes with image gradients
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename atk_pred.png
+	width 5cm
+	height 5cm
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+preditions
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename acc_atk.png
+	width 5cm
+	height 5cm
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+accuracy per epsillon
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Results of the attack
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+ From the figure above, it can be inferred that the attack pushes the images
+ towards automobile class more than others.
+ (Attacks were preformed with torchattack library)
+\end_layout
+
+\begin_layout Itemize
+There are three main methods of defense against this attack.
+ Data augmentation with adversarial examples, Attack detection with PCA
+ and loss modification.
+ Due to ease of implementation, the first method was chosen.
+ For each batch, random samples were chosen and tainted with attack and
+ the model trained as normal with the modified data.
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename grad_post.png
+	width 10cm
+	height 10cm
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Gradients post attack
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+As demonstrated above, the gradients have more clarity than their previous
+ visualization.
+ This means that the model has trained to pay more attention to the gradients.
+ 
+\end_layout
+
+\begin_layout Itemize
+The defense method was chosen for its ease of implementation.
+ However, the newly added perturbation made training more difficult and
+ unstable for the model.
+ with incomplete training, it can be claimed that this method has success
+ to some degree.
+ 
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename atk_log.png
+	width 10cm
+	height 10cm
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Training logs for adversarial training
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename pred_post.png
+	width 10cm
+	height 10cm
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+predictions for tainted data after adversarial training
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+The image was attached to the computational graph, fed to the model, the
+ model gradients were set to zero and the gradients were evaluated with
+ respect to images compered to labels.
+ The gradients were converted to gray-scale and visualized with a heatmap.
+ This method was the easiest to use hence it was chosen.
+\end_layout
+
+\end_body
+\end_document

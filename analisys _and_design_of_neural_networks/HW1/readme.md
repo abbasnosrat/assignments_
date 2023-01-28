@@ -1,0 +1,1 @@
+The aim of this assignment was to investigate the effect of the local contrast normalization layer as an input layer for YOLOX

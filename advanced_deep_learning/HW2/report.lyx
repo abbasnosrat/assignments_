@@ -1,0 +1,775 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Advanced Deep Learning
+\begin_inset Newline newline
+\end_inset
+
+Homework 2
+\end_layout
+
+\begin_layout Author
+Abbas Nosrat
+\begin_inset Newline newline
+\end_inset
+
+810199294
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Generative Adversarial Networks
+\end_layout
+
+\begin_layout Subsection
+Stage 1
+\end_layout
+
+\begin_layout Itemize
+The loss function used in cyclegan is consisted of three parts:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Adversarial Loss
+\series default
+: This loss is formulated as
+\begin_inset Formula 
+\[
+\mathcal{L_{GAN}}=\mathbb{E}_{y\sim P_{data}(y)}\left[\left(D(y)-1\right)^{2}\right]+\mathbb{E}_{X\sim P_{data}(X)}\left[\left(D(G(X))\right)^{2}\right]
+\]
+
+\end_inset
+
+This loss is applied to the output of the discriminator and it is basically
+ a classification loss which gives a hard 1 label to the real images and
+ a hard zero label to the generated images which tries to train the discriminato
+r to distinguish between fake and real images.
+ Optimizing this loss for the generator, trains the generator to generate
+ images that will increase the discriminator loss .This loss is responsible
+ for the adversarial nature of cyclegan and without this loss, the generators
+ and discriminators cannot be trained.
+ There are two 
+\begin_inset Formula $\mathcal{L_{GAN}}$
+\end_inset
+
+ terms corresponding to the two pairs of generator and discriminators.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Cycle Consistency Loss:
+\series default
+ This loss is and L1 loss between the input image and the output of the
+ second generator.
+ It tries to learn the networks to return the image to its original state
+ after passing it through both generators.
+ In other words 
+\begin_inset Formula 
+\[
+G_{2}(G_{1}(X))\approx X\Rightarrow\mathcal{L}_{cycle}=\left\Vert X-G_{2}(G_{1}(X))\right\Vert 
+\]
+
+\end_inset
+
+The general idea of GANs is that the network can learn any mapping from
+ the input domain to the target domain.
+ However, the network may learn to change the spatial properties of the
+ image such that the output image looks nothing like the input image.
+ In order to prevent such phenomena, cycle consistency loss is utilized.
+ Utilization of this loss, enforces the network to only apply the minimum
+ change required to go from the input domain to the target domain.
+ By removing this term from the objective function, the network may learn
+ to change the image too much.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Identity Loss:
+\series default
+ This loss ensures that if an image from the target domain is given as input
+ to the generator, the image remains unchanged.
+ This loss has no positive effect on training of the networks and in some
+ cases it is better to be removed.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+The authors of cycleGAN used MSE loss instead of cross entropy due to training
+ stability.
+ Optimizing MSE loss is more stable than BCE and would result in generation
+ of better quality images.
+\end_layout
+
+\begin_layout Itemize
+If an objective is consisted of multiple terms, it is generally represented
+ as a weighted sum.
+ By increasing the weight for the the more important terms and/or decreasing
+ for the less important ones, one can ensure better training and fulfillment
+ of the desired objective.
+\end_layout
+
+\begin_layout Itemize
+Yes.
+ The generator uses a hierarchical architecture.
+ It reduces dimensions at first and then increases them to match the target
+ image.
+ Any CNN architecture following the same pattern can be used.
+ A good example of this type of networks can be UNET.
+ For the discriminator part, any classifier architecture can be used since
+ it is a classification problem.
+ However, the results may be worse than PatchGan.
+ Another approach can be the use of Siamese networks.
+ The objective can be reformulated.
+ In the new formulation, Instead of classification loss for the discriminator,
+ Triplet loss or Contrastive loss can be used.
+ By changing the loss in this way, the discriminator tries to create distance
+ between real and fake images and the generator tries to get its images
+ among the real images.
+\end_layout
+
+\begin_layout Subsection
+Stage 2
+\end_layout
+
+\begin_layout Itemize
+The model has been trained for 20 epochs due to lack of computational power
+ and time.
+ The identity loss was removed to reduce computations and save time.
+ The results are demonstrated in figure 1:
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename cycleGan/figures/logs/training_logs.jpg
+	width 10cm
+	height 10cm
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Training logs for CycleGan
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+As witnessed in Figure 1, the adversarial loss is increasing but all other
+ losses are decreasing.
+ The increase in adversarial loss can have two possible causes:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+The Generator may be too powerful compared to discriminator.
+\end_layout
+
+\begin_layout Enumerate
+It may be due to the stochastic nature of training and further training
+ may remedy this problem.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Here are a few images generated by the model:
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename cycleGan/figures/train/A_epoch19_1200.png
+	width 3cm
+	height 3cm
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename cycleGan/figures/train/A_epoch19_1000.png
+	width 3cm
+	height 3cm
+	keepAspectRatio
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename cycleGan/figures/train/A_epoch19_800.png
+	width 3cm
+	height 3cm
+	keepAspectRatio
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Generated images from A dataset(horse to zebra)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename cycleGan/figures/train/B_epoch14_800.png
+	width 3cm
+	height 3cm
+	keepAspectRatio
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename cycleGan/figures/train/B_epoch13_1000.png
+	width 3cm
+	height 3cm
+	keepAspectRatio
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename cycleGan/figures/train/B_epoch14_200.png
+	width 3cm
+	height 3cm
+	keepAspectRatio
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Generated images from B dataset(zebra to horse)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+generated images by model
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+ As demonstrated in Figure 2, the model has better learned to turn horses
+ to zebras than vice versa.
+ This can be fixed with further training.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Variational Auto Encoder
+\end_layout
+
+\begin_layout Subsection
+Stage 1
+\end_layout
+
+\begin_layout Itemize
+if the decoder is sufficiently powerful, then the training objective can
+ be solved with a dumb strategy: the encoder always produces 
+\begin_inset Formula $p(z)$
+\end_inset
+
+ regardless of the data, and the decoder always produces 
+\begin_inset Formula $p(x)$
+\end_inset
+
+ regardless of 
+\begin_inset Formula $z$
+\end_inset
+
+.
+ The paper Neural Discrete Representation Learning (from van den Oord and
+ others from deepmind) calls this "posterior collapse".
+\begin_inset Newline newline
+\end_inset
+
+Due to posterior collapse, VAEs cannot be controled since the decoder ignores
+ the latent space.
+ This results in the VAE only producing a limited set of outputs and not
+ being able to generalize
+\end_layout
+
+\begin_layout Itemize
+In a GAN models, the generator may be able to learn one or a few pluseble
+ outputs which can decive the discriminator.
+ However this is not desirable.
+ This phenomena can be remedied if the discriminator learns to distinguish
+ between real and fake inputs.
+ However if the discriminator gets stuck in a local minimum, it will not
+ be able to solve the loophole that the generator has discoverd and thus
+ resulting in the GAN only generating a few different output images.
+ This phenomena is called 
+\begin_inset Quotes eld
+\end_inset
+
+mode collapse
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The difference between 
+\begin_inset Quotes eld
+\end_inset
+
+model collapse
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+posterior collapse
+\begin_inset Quotes erd
+\end_inset
+
+ is that the former is cauesed due to under parameterized discriminator
+ but the latter is caused by over parameterized decoder.
+\end_layout
+
+\begin_layout Subsection
+Stage 2
+\end_layout
+
+\begin_layout Itemize
+The VQ-VAE loss is 
+\begin_inset Formula 
+\[
+L=log(p(x|z_{q}(x))+\left\Vert sg\left[z_{e}(x)\right]-e\right\Vert _{2}^{2}+\beta\left\Vert z_{e}(x)-sg[e]\right\Vert _{2}^{2}
+\]
+
+\end_inset
+
+The first term is the reconstruction loss which basically can be simplified
+ to an L2 loss between the input and the output assuming a Gaussian data
+ likelihood.
+ This term is responsible for training the encoder and the decoder(it is
+ the auto encoder loss) and by removing this term the encoder and the decoder
+ cannot be trained.
+ 
+\begin_inset Newline newline
+\end_inset
+
+The second term is pushing the code-book vectors to their corresponding
+ encoded vectors.
+ SG is an abbreviation for stop gradient which means detaching the argument
+ from the computational graph.
+ The embeddings optimize this term hence by removing this part, training
+ of the embeddings is disrupted.
+\begin_inset Newline newline
+\end_inset
+
+The last term pushes the encoded vectors to the code-book vectors(the conjugate
+ operation of the second term somehow).
+ This term is a part of training loss for the encoder and removing it will
+ negatively effect the training of the encoder part.
+\end_layout
+
+\begin_layout Itemize
+Auto-regressive models such as pixelCNN, generate outputs by utilizing their
+ previous outputs.
+ For example, pixelCNN uses a receptive field to measure an estimate of
+ the distribution of surrounding generated/given pixels and generates the
+ most likely pixel based on the estimated distribution.
+ In case of VQ-VAE, a pixelCNN generates the index of code book vectors
+ and after completion of the matrix, VQ-VAE gets the corresponding vectors
+ from the code book and generates the novel image.
+ 
+\end_layout
+
+\begin_layout Itemize
+The prior distribution 
+\begin_inset Formula $p(z)$
+\end_inset
+
+ is a uniform distribution and the posterior distribution 
+\begin_inset Formula $p(z|x)$
+\end_inset
+
+ is a single vector.
+ This is due to discretization of the posterior with the code-book vectors.
+ If KL divergence between the prior and the posterior is computed, the result
+ would be
+\begin_inset Formula 
+\[
+1\times\log\left(\frac{1}{\frac{1}{k}}\right)=\log(k)
+\]
+
+\end_inset
+
+
+\begin_inset Formula $k$
+\end_inset
+
+ is the length of the prior distribution.
+\end_layout
+
+\begin_layout Subsection
+Stage 3
+\end_layout
+
+\begin_layout Itemize
+Figure 3 demonstrates training logs for 40 epochs:
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename VQ_VAE/figures/training_logs.png
+	width 10cm
+	height 10cm
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Training logs for VQ-VAE
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+ It can be seen that both reconstruction loss and VQ loss are decreasing
+ and the perplexity, which is the utilization rate of the code-book vectors,
+ is increasing.
+ after 40 epochs everything will converge.
+ Hence, 40 epochs was enough training.
+ A UMAP abstraction of the embedding vectors is illustrated in Figure 4:
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename VQ_VAE/figures/cp_um.png
+	width 10cm
+	height 10cm
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+UMAP representation of embedding vectors 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+ As clearly demonstrated in figure 4, there is a nice separation in the
+ embedding space which is a result of vector quantization.
+\end_layout
+
+\begin_layout Itemize
+Some reconstructed images are presented in Figure 5:
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename VQ_VAE/figures/val_original.png
+	width 5cm
+	height 5cm
+	keepAspectRatio
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Original
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename VQ_VAE/figures/val_recon.png
+	width 5cm
+	height 5cm
+	keepAspectRatio
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Reconstructed 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Original vs reconstructed images from validation set
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

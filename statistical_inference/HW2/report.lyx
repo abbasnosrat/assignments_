@@ -1,0 +1,1008 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement H
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Statistical inference Homework 2
+\end_layout
+
+\begin_layout Author
+Abbas Nosrat
+\end_layout
+
+\begin_layout Section*
+1-
+\end_layout
+
+\begin_layout Standard
+Assuming there are two seats, there are two possible states.
+\end_layout
+
+\begin_layout Itemize
+The first one sits on the correct seat and the last one sits on the correct
+ seat.
+\end_layout
+
+\begin_layout Itemize
+The first one does not sit correctly and the last one does not as well.
+\end_layout
+
+\begin_layout Standard
+Which means that the probability of the last one to sit correctly is 0.5.
+ 
+\end_layout
+
+\begin_layout Standard
+Lets try with three seats.
+\end_layout
+
+\begin_layout Itemize
+The first one sitts at the correct seat and the others sit correctly too.
+\end_layout
+
+\begin_layout Itemize
+The first one sits at the second seat and the second one sits at the first
+ seat.
+\end_layout
+
+\begin_layout Itemize
+The first one sits at the second seat and the second one sits at the third
+ seat.
+\end_layout
+
+\begin_layout Itemize
+The first one sits at the third seat, the second one sits at the second
+ seat and the last one sits at the first.
+\end_layout
+
+\begin_layout Standard
+This leaves four states in two of which, the last passenger sits correctly
+ resulting in the probability of the last passenger sitting correctly to
+ be 0.5.
+\end_layout
+
+\begin_layout Standard
+This can be tested with more seats but the answer will be equal to 0.5
+\end_layout
+
+\begin_layout Standard
+if all the passengers sat randomly, the answer would be 
+\begin_inset Formula $\frac{(n-1)!}{n!}=\frac{1}{n}$
+\end_inset
+
+ but this is not the case and the answer is 0.5
+\end_layout
+
+\begin_layout Section*
+2-
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+p(A)=365\times364\times\ldots\times(365-n+1)=\frac{365!}{(365-n)!}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $p(A)$
+\end_inset
+
+ is the probability of no two birthdays being in the same day.
+ 
+\begin_inset Formula $\tilde{p}(A)=1-p(A)$
+\end_inset
+
+ is the probability of at least two people sharing the same birthday.
+ about 65 people makes 
+\begin_inset Formula $\tilde{p}(A)$
+\end_inset
+
+ around 100 percent.
+\end_layout
+
+\begin_layout Section*
+3-
+\end_layout
+
+\begin_layout Subsection*
+a) 
+\end_layout
+
+\begin_layout Standard
+The time interval is fixed and is equal to one hour, the average number
+ of events which is selling pizza is 20.(
+\begin_inset Formula $\lambda=20$
+\end_inset
+
+) Therefore the distribution is Poisson.
+\end_layout
+
+\begin_layout Subsection*
+b)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\sum_{n=0}^{\infty}\frac{e^{-\lambda}\lambda^{2n}}{(2n)!}=e^{-\lambda}\sum_{n=0}^{\infty}\frac{\lambda^{n}}{n!}\frac{1+(-1)^{n}}{2}=\dfrac{e^{-\lambda}}{2}\sum_{n=0}^{\infty}\frac{\lambda^{n}}{n!}+\dfrac{e^{-\lambda}}{2}\sum_{n=0}^{\infty}\frac{(-\lambda)^{n}}{n!}=\frac{1+e^{-2\lambda}}{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+lambda is 20 hence 
+\begin_inset Formula $p(even)=\frac{1+e^{-2\lambda}}{2}=\frac{1+e^{-40}}{2}\approx0.5$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+c)
+\end_layout
+
+\begin_layout Standard
+using a for loop from 0 to 10000 with increments of 2, the probability was
+ evaluated using dpois function and summed.
+ Figure 1 is the incremental probability.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename 3c.png
+	width 10cm
+	height 10cm
+	keepAspectRatio
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The incremental probability.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+4-
+\end_layout
+
+\begin_layout Subsection*
+a)
+\end_layout
+
+\begin_layout Standard
+There are two distributions and both of them are binomial.
+ The first one is being able to vote or not and the second is voting for
+ x or y.
+ Let the first distribution be 
+\begin_inset Formula $p(X)$
+\end_inset
+
+ and the second 
+\begin_inset Formula $p(Y)$
+\end_inset
+
+.
+ Consequently, the total distribution is 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P(X=x)=\binom{n}{x}p^{x}(1-p)^{n-x}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P(Y=y|X=x)=\binom{x}{y}q^{y}(1-q)^{x-y}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P(Y=y)=\binom{n}{y}(pq)^{y}(1-pq)^{n-y}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this case, 
+\begin_inset Formula $P=0.5$
+\end_inset
+
+ and 
+\begin_inset Formula $q=P$
+\end_inset
+
+ then
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P(X_{A}=x)=\binom{N}{x}(0.5p)^{x}(1-0.5p)^{N-x},
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+P(X_{B}=x)=\binom{N}{x}0.5(1-p)^{x}(1-0.5(1-p))^{N-x}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Now that the probability of stheuccess is found, the mean value can be estimated
+ as:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+E(X_{A})=\frac{Np}{2},E(X_{B})=\frac{N(1-p)}{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and the expected value of variance of 
+\begin_inset Formula $X_{A}$
+\end_inset
+
+ is 
+\begin_inset Formula $\frac{Np(1−p)}{4}$
+\end_inset
+
+ and the standard deviation is 
+\begin_inset Formula $\sqrt{\frac{Np(1−p)}{4}}$
+\end_inset
+
+.
+ The exact same applies for 
+\begin_inset Formula $X_{B}$
+\end_inset
+
+ since substitution of p and 
+\begin_inset Formula $1-p$
+\end_inset
+
+ has no effect due to the product between p and 
+\begin_inset Formula $1-p$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection*
+b)
+\end_layout
+
+\begin_layout Standard
+As N reaches infinity, 
+\begin_inset Formula $\frac{N}{2}$
+\end_inset
+
+ also becomes infinity.
+ Then
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+E[X]=p\times\lim_{N\rightarrow\infty}\frac{N}{2}=Np
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is a number between 
+\begin_inset Formula $\left[0,N\right]$
+\end_inset
+
+ to find the fraction of students, 
+\begin_inset Formula $Np$
+\end_inset
+
+ has to be devided by 
+\begin_inset Formula $N$
+\end_inset
+
+ which will be equal to 
+\begin_inset Formula $p$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection*
+c)
+\end_layout
+
+\begin_layout Standard
+In section A the expected value of two binomial distributions which are
+ conditional was prove to be 
+\begin_inset Formula $nqp$
+\end_inset
+
+ the second binomial is fixed but the first binomial has changed.
+\end_layout
+
+\begin_layout Standard
+The first binomial is the probability of voting if busy and supporting A.
+ its success chance is 
+\begin_inset Formula $0.25q_{a}$
+\end_inset
+
+.
+ Another scenario is voting if free and supporting A which has a success
+ of 
+\begin_inset Formula $0.75(1-q_{A})$
+\end_inset
+
+.
+ These two probabilities have or between them.
+ if two distributions are ored, their distributions are summed and expectation
+ of sums is sum of expectations.
+ Hence:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+E(X_{A})=0.25q_{A}pN+0.75(1-q_{A})pN
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+By the same logic,
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+E(X_{B})=0.25q_{A}pN+0.75(1-q_{A})pN
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+5-
+\end_layout
+
+\begin_layout Subsection*
+a)
+\end_layout
+
+\begin_layout Standard
+Two disjointed events cannot happen at the same time but two independent
+ events can happen although the outcome of one gives no information about
+ outcome of the other
+\end_layout
+
+\begin_layout Subsection*
+b)
+\end_layout
+
+\begin_layout Standard
+If two events (A,B) are disjointed such that P(A)=1 and P(B)=0 then:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P(A\cap B)=0
+\]
+
+\end_inset
+
+and 
+\begin_inset Formula 
+\[
+P(B|A)=\frac{P(A\cap B)=0}{P(A)}=0=P(B)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+c)
+\end_layout
+
+\begin_layout Standard
+If N is greater than 2(for example N=3):
+\end_layout
+
+\begin_layout Standard
+IF A is true, then there can be 2 boys one girl or 2 girls and one boy.
+ For the first case, B is false and for the second case B is true.
+ Hence Truth of A gives no information about truth of B
+\end_layout
+
+\begin_layout Standard
+IF A is false, then either the children are all boys or girls.
+ The former results in B being false since there are 3 boys and the latter
+ makes B true since there are zero boys.
+ Therefore, falsehood of A gives no information about B either.
+\end_layout
+
+\begin_layout Section*
+6-
+\end_layout
+
+\begin_layout Standard
+The sample space is [bb,bg,gb,gg]
+\end_layout
+
+\begin_layout Subsection*
+a)
+\end_layout
+
+\begin_layout Standard
+The mother's response removes 
+\begin_inset Quotes eld
+\end_inset
+
+gg
+\begin_inset Quotes erd
+\end_inset
+
+ from the sample space.
+ Therefore, the probability of 
+\begin_inset Quotes eld
+\end_inset
+
+bb
+\begin_inset Quotes erd
+\end_inset
+
+ is 
+\begin_inset Formula $\frac{1}{3}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+b)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $p(Ali|BG)=p(ali|GB)=\alpha,P(ali|BB)=\alpha(1-\alpha)+(1-\alpha)\alpha+\alpha^{2}=2\alpha-\alpha^{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+using Bayes rule 
+\begin_inset Formula $P(BB|ali)$
+\end_inset
+
+can be found:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+p(BB|ali)=\frac{p(ali|BB)p(BB)}{P(ali)}=\frac{0.25(2\alpha-\alpha^{2})}{0.25(2\alpha-\alpha^{2})\times0.5\alpha}=\frac{2-\alpha}{4-\alpha}\approx0.5
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+c)
+\end_layout
+
+\begin_layout Standard
+In both parts the sample space was reduced to BB BG and GB but in part B
+ states did not have equal probability.
+ The added information about name means that a family with two boys is more
+ likely to name one of their children Ali than a family with one boy and
+ one girl.
+\end_layout
+
+\begin_layout Section*
+7-
+\end_layout
+
+\begin_layout Subsection*
+a and b)
+\end_layout
+
+\begin_layout Standard
+Suppose there are N players.
+ When two players meet in round , they are effectively the chosen 2 from
+ a pool of 
+\begin_inset Formula $2^{k}$
+\end_inset
+
+ players who competed in the sub-bracket leading to that particular match.
+ Let us call such a sub-bracket a k-sub-bracket.
+ There are 
+\begin_inset Formula $M_{k}=2^{N}/2^{k}$
+\end_inset
+
+ k-sub-brackets.
+ The probability that both players end up in a particular k-sub-bracket
+ is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{1}(k)=\frac{2^{k}}{2^{N}}\cdot\frac{2^{k}-1}{2^{N}-1}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The probability that two players from a k-sub-bracket meet in round k is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+{\displaystyle P_{2}(k)=2\cdot\frac{1}{2^{k}}\cdot\frac{1}{2^{k}-1}=\frac{1}{2^{k-1}}\cdot\frac{1}{2^{k}-1}.}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Thus, the probability that the two players play each other is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P_{N}=\sum_{k=1}^{N}M_{k}\cdot P_{1}(k)\cdot P_{2}(k)=\sum_{k=1}^{N}\left(\frac{2^{N}}{2^{k}}\right)\left(\frac{2^{k}}{2^{N}}\right)\left(\frac{2^{k}-1}{2^{N}-1}\right)\left(\frac{1}{2^{k-1}}\right)\left(\frac{1}{2^{k}-1}\right)=\frac{1}{2^{N}-1}\sum_{k=1}^{N}\frac{1}{2^{k-1}}=\frac{1}{2^{N-1}}.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+for 
+\begin_inset Formula $N=4$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\frac{1}{8}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+8
+\end_layout
+
+\begin_layout Subsection*
+a)
+\end_layout
+
+\begin_layout Standard
+There is a single outlier which ruins the plot at index 1429.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename 8afig1.png
+	width 10cm
+	height 10cm
+	keepAspectRatio
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+outlier demonstration
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+After removing the outlier the plot looks like
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename 8afig2.png
+	width 10cm
+	height 10cm
+	keepAspectRatio
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Histogram of price per serving with density line
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+b)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename 8b.png
+	width 10cm
+	height 10cm
+	keepAspectRatio
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+probability distribution of healthScore and readyInMinutes
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+c)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename 8c.png
+	width 10cm
+	height 10cm
+	keepAspectRatio
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Bar plot of dish types
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+d)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename 8d.png
+	width 10cm
+	height 10cm
+	keepAspectRatio
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Box plot of dish types and healthScore
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+e)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename 8e.png
+	width 10cm
+	height 10cm
+	keepAspectRatio
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+mosaic plot of dairyFree and veryHealthy
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

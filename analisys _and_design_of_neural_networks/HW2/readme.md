@@ -1,0 +1,1 @@
+This assignment asked to compare Trplet Loss and Circle Loss on LFW dataset. 
